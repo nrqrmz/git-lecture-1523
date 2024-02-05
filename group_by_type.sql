@@ -1,4 +1,6 @@
-SELECT
+WITH
+  cte AS (
+  SELECT
     model_type,
     color,
     AVG(SAFE_CAST(price AS float64)) AS avg_price,
@@ -7,4 +9,14 @@ SELECT
     `hip-beaker-406013.course14.circle_stock`
   GROUP BY
     model_type,
-    color
+    color )
+SELECT
+  model_type,
+  color,
+  avg_price,
+  stock_amount,
+  ROUND(avg_price * stock_amount,2) AS stock_value
+FROM
+  cte
+ORDER BY
+  stock_value desc
